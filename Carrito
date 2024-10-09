@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de compras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Productos</h1>
+        <div class="products">
+            <div class="product">
+                <h2>Tubo de escape</h2>
+                <p>25.000$</p>
+                <button class="add-to-cart" data-name="Product 1" data-price="10">Añadir al carrito</button>
+            </div>
+            <div class="product">
+                <h2>Aceite de motor</h2>
+                <p>10.000$</p>
+                <button class="add-to-cart" data-name="Product 2" data-price="15">Añadir al carrito</button>
+            </div>
+            <div class="product">
+                <h2>Neumatico</h2>
+                <p>50.000$</p>
+                <button class="add-to-cart" data-name="Product 3" data-price="20">Añadir al carrito</button>
+            </div>
+        </div>
+
+        <h2>Tu carrito de compras</h2>
+        <div class="cart">
+            <ul id="cart-items">
+                <!-- Items added to cart will appear here -->
+            </ul>
+            <p>Total: $<span id="total">0</span></p>
+            <button id="clear-cart">Limpiar carrito de compras</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
