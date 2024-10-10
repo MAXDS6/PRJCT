@@ -13,17 +13,17 @@
             <div class="product">
                 <h2>Tubo de escape</h2>
                 <p>25.000$</p>
-                <button class="add-to-cart" data-name="Product 1" data-price="10">Añadir al carrito</button>
+                <button class="add-to-cart" data-name="Tubo de escape" data-price="25000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <h2>Aceite de motor</h2>
                 <p>10.000$</p>
-                <button class="add-to-cart" data-name="Product 2" data-price="15">Añadir al carrito</button>
+                <button class="add-to-cart" data-name="Aceite de motor" data-price="10000">Añadir al carrito</button>
             </div>
             <div class="product">
-                <h2>Neumatico</h2>
+                <h2>Neumático</h2>
                 <p>50.000$</p>
-                <button class="add-to-cart" data-name="Product 3" data-price="20">Añadir al carrito</button>
+                <button class="add-to-cart" data-name="Neumático" data-price="50000">Añadir al carrito</button>
             </div>
         </div>
 
@@ -37,6 +37,92 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Aquí se añade tu código JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cartItems = document.getElementById("cart-items");
+            const totalElement = document.getElementById("total");
+            let total = 0;
+            let cart = {};  // Objeto para almacenar productos y cantidades
+
+            // Evento para añadir al carrito
+            document.querySelectorAll(".add-to-cart").forEach(button => {
+                button.addEventListener("click", function () {
+                    const productName = this.getAttribute("data-name");
+                    const productPrice = parseInt(this.getAttribute("data-price"));
+
+                    // Si el producto ya está en el carrito, actualiza la cantidad
+                    if (cart[productName]) {
+                        if (cart[productName].quantity < 10) {  // Límite máximo de 10 unidades
+                            cart[productName].quantity++;
+                        }
+                    } else {
+                        cart[productName] = {
+                            price: productPrice,
+                            quantity: 1
+                        };
+                    }
+
+                    updateCart();  
+                });
+            });
+
+            // Evento para limpiar carrito
+            document.getElementById("clear-cart").addEventListener("click", function () {
+                cart = {}; 
+                updateCart();
+            });
+
+            // Función para incrementar la cantidad en el carrito
+            function incrementProduct(productName) {
+                if (cart[productName].quantity < 10) {
+                    cart[productName].quantity++;
+                }
+                updateCart();
+            }
+
+            // Función para decrementar la cantidad en el carrito
+            function decrementProduct(productName) {
+                if (cart[productName].quantity > 1) {
+                    cart[productName].quantity--;
+                } else {
+                    delete cart[productName];  
+                }
+                updateCart();
+            }
+
+            // Función para actualizar la vista del carrito y el total
+            function updateCart() {
+                cartItems.innerHTML = "";  // Limpia la lista actual de items en el carrito
+                total = 0;
+
+                for (const [productName, productDetails] of Object.entries(cart)) {
+                    const li = document.createElement("li");
+
+                    li.innerHTML = `
+                        ${productName} - ${productDetails.quantity} x $${productDetails.price} = $${productDetails.quantity * productDetails.price}
+                        <button class="decrease-quantity">-</button>
+                        <button class="increase-quantity">+</button>
+                    `;
+
+                    cartItems.appendChild(li);
+
+                    // Botones para incrementar y decrementar cantidad en el carrito
+                    li.querySelector(".increase-quantity").addEventListener("click", function () {
+                        incrementProduct(productName);
+                    });
+
+                    li.querySelector(".decrease-quantity").addEventListener("click", function () {
+                        decrementProduct(productName);
+                    });
+
+                    // Actualiza el total del carrito
+                    total += productDetails.quantity * productDetails.price;
+                }
+
+                totalElement.textContent = total;
+            }
+        });
+    </script>
 </body>
 </html>
