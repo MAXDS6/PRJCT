@@ -37,21 +37,20 @@
         </div>
     </div>
 
-    <!-- Aquí se añade tu código JavaScript -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const cartItems = document.getElementById("cart-items");
             const totalElement = document.getElementById("total");
             let total = 0;
-            let cart = {};  // Objeto para almacenar productos y cantidades
+            let cart = {}; 
 
-            // Evento para añadir al carrito
+            
             document.querySelectorAll(".add-to-cart").forEach(button => {
                 button.addEventListener("click", function () {
                     const productName = this.getAttribute("data-name");
                     const productPrice = parseInt(this.getAttribute("data-price"));
 
-                    // Si el producto ya está en el carrito, actualiza la cantidad
+                    
                     if (cart[productName]) {
                         if (cart[productName].quantity < 10) {  // Límite máximo de 10 unidades
                             cart[productName].quantity++;
@@ -67,13 +66,13 @@
                 });
             });
 
-            // Evento para limpiar carrito
+            
             document.getElementById("clear-cart").addEventListener("click", function () {
                 cart = {}; 
                 updateCart();
             });
 
-            // Función para incrementar la cantidad en el carrito
+           
             function incrementProduct(productName) {
                 if (cart[productName].quantity < 10) {
                     cart[productName].quantity++;
@@ -81,7 +80,7 @@
                 updateCart();
             }
 
-            // Función para decrementar la cantidad en el carrito
+           
             function decrementProduct(productName) {
                 if (cart[productName].quantity > 1) {
                     cart[productName].quantity--;
@@ -91,7 +90,7 @@
                 updateCart();
             }
 
-            // Función para actualizar la vista del carrito y el total
+            
             function updateCart() {
                 cartItems.innerHTML = "";  // Limpia la lista actual de items en el carrito
                 total = 0;
@@ -107,7 +106,7 @@
 
                     cartItems.appendChild(li);
 
-                    // Botones para incrementar y decrementar cantidad en el carrito
+                    
                     li.querySelector(".increase-quantity").addEventListener("click", function () {
                         incrementProduct(productName);
                     });
@@ -116,7 +115,7 @@
                         decrementProduct(productName);
                     });
 
-                    // Actualiza el total del carrito
+                    
                     total += productDetails.quantity * productDetails.price;
                 }
 
