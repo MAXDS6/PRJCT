@@ -230,7 +230,7 @@
             });
 
             function incrementProduct(productName) {
-                if (cart[productName].quantity < 10) {
+                if (cart[productName].quantity < 5) {
                     cart[productName].quantity++;
                 }
                 updateCart();
