@@ -6,6 +6,7 @@
     <title>Carrito de compras</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+       
         * {
             margin: 0;
             padding: 0;
@@ -29,9 +30,6 @@
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(to bottom, #5100a3, #ffffff);
-            background-size: cover;
-            background-attachment: fixed; 
             background-color: #5100a3; 
         }
 
@@ -42,31 +40,14 @@
             margin: 0 auto;
         }
 
-        h1 {
+        h1, h2, h3, h4 {
             text-align: center;
             color: #12e3d0;
-            margin-bottom: 20px;
-        } /* Bullalbo */
-
-        h2 {
-            text-align: center;
-            color: #12e3d0;
-            margin-bottom: 20px;
-        } /* Productos */
+        }
 
         h3 {
-            text-align: center;
             color: #5100a3;
-            margin-bottom: 20px;
-        } /* Carrito de compras */
-
-        
-        h4{
-            text-align: center; 
-            color: #12e3d0;
-            margin-bottom: 10px;
-            font-size: 18px; 
-        } /* Productos en general */
+        }
 
         p {
             text-align: center;
@@ -123,75 +104,85 @@
             margin-top: 20px;
         }
 
+        #translate-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            color: #5100a3;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <button id="translate-btn">English</button>
     <div class="container">
-        <h1>Bullalbo</h1>
+        <h1 id="store-name">Bullalbo</h1>
 
-        <h2>Productos</h2>
+        <h2 id="products-title">Productos</h2>
         <div class="products">
             <div class="product">
                 <img src="https://biocartuning.cl/wp-content/uploads/2023/07/DSC06130-Photoroom.jpg" alt="Tubo de escape" width="120" height="120">
-                <h4>Tubo de escape</h4>
-                <p>25.000$</p>
-                <button class="add-to-cart" data-name="Tubo de escape" data-price="25000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="1">Tubo de escape</h4>
+                <p class="product-price">25.000$</p>
+                <button class="add-to-cart" data-name="1" data-price="25000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://www.dimarine.cl/media/catalog/product/m/a/marcashonda08207-10w30-negro1jpeg_0.jpg" alt="Aceite de motor" width="120" height="120">
-                <h4>Aceite de motor</h4>
-                <p>10.000$</p>
-                <button class="add-to-cart" data-name="Aceite de motor" data-price="10000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="2">Aceite de motor</h4>
+                <p class="product-price">10.000$</p>
+                <button class="add-to-cart" data-name="2" data-price="10000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://ventastore.cl/wp-content/uploads/2024/01/5.50R13LT-ROCKBLADE.jpg" alt="Neumático" width="120" height="120">
-                <h4>Neumático</h4>
-                <p>50.000$</p>
-                <button class="add-to-cart" data-name="Neumático" data-price="50000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="3">Neumático</h4>
+                <p class="product-price">50.000$</p>
+                <button class="add-to-cart" data-name="3" data-price="50000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/h61/ha1/9680923656222/drp515Wx515H_116094_3-1689096255/drp515Wx515H-116094-3-1689096255.webp" alt="Bujías" width="120" height="120">
-                <h4>Bujías</h4>
-                <p>2.000$</p>
-                <button class="add-to-cart" data-name="Bujías" data-price="2000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="4">Bujías</h4>
+                <p class="product-price">2.000$</p>
+                <button class="add-to-cart" data-name="4" data-price="2000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/images/ha2/haa/9153261797406/medias-110183-1-1635532302.bin" alt="Filtro de aire" width="120" height="120">
-                <h4>Filtros de aire</h4>
-                <p>25.000$</p>
-                <button class="add-to-cart" data-name="Filtros de aire" data-price="25000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="5">Filtros de aire</h4>
+                <p class="product-price">25.000$</p>
+                <button class="add-to-cart" data-name="5" data-price="25000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/images/h42/h30/9409235320862/medias-121304-2-1676550375.bin" alt="Filtro de aceite" width="120" height="120">
-                <h4>Filtros de aceite</h4>
-                <p>5.000$</p>
-                <button class="add-to-cart" data-name="Filtros de aceite" data-price="5000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="6">Filtros de aceite</h4>
+                <p class="product-price">5.000$</p>
+                <button class="add-to-cart" data-name="6" data-price="5000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/images/hbd/h56/9164062130206/medias-487341-1-1636724932.bin" alt="Espejo" width="120" height="120">
-                <h4>Espejo</h4>
-                <p>40.000$</p>
-                <button class="add-to-cart" data-name="Espejo" data-price="40000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="7">Espejo</h4>
+                <p class="product-price">40.000$</p>
+                <button class="add-to-cart" data-name="7" data-price="40000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/images/h8f/h51/9304276762654/medias-1108502-1-1653419624.bin" alt="Foco trasero" width="120" height="120">
-                <h4>Foco trasero</h4>
-                <p>20.000$</p>
-                <button class="add-to-cart" data-name="Foco trasero" data-price="20000">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="8">Focos trasero</h4>
+                <p class="product-price">20.000$</p>
+                <button class="add-to-cart" data-name="8" data-price="20000">Añadir al carrito</button>
             </div>
             <div class="product">
                 <img src="https://api.autoplanet.cl/medias/sys_master/images/images/hd3/hb7/9167309307934/medias-121663-1-1637070558.bin" alt="Correa" width="120" height="120">
-                <h4>Correa 5PK</h4>
-                <p>8.500$</p>
-                <button class="add-to-cart" data-name="Correa" data-price="8500">Añadir al carrito</button>
+                <h4 class="product-name" data-product-id="9">Correa 5PK</h4>
+                <p class="product-price">8.500$</p>
+                <button class="add-to-cart" data-name="9" data-price="8500">Añadir al carrito</button>
             </div>
         </div>
-
-        <h3>Tu carrito de compras</h3>
+        
+        <h3 id="cart-title">Tu carrito de compras</h3>
         <div class="cart">
-            <ul id="cart-items">
-                
-            </ul>
+            <ul id="cart-items"></ul>
             <p>Total: $<span id="total">0</span></p>
             <button id="clear-cart">Limpiar carrito de compras</button>
         </div>
@@ -202,19 +193,93 @@
             const cartItems = document.getElementById("cart-items");
             const totalElement = document.getElementById("total");
             let total = 0;
-            let cart = {}; 
+            let cart = {};
+            let translated = false;
+            let currentLanguage = 'es'; 
+            
+            const translateBtn = document.getElementById("translate-btn");
 
+            const textContent = {
+                es: {
+                    storeName: "Bullalbo",
+                    productsTitle: "Productos",
+                    cartTitle: "Tu carrito de compras",
+                    clearCart: "Limpiar carrito de compras",
+                    addToCart: "Añadir al carrito",
+                    products: {
+                        1: "Tubo de escape",
+                        2: "Aceite de motor",
+                        3: "Neumático",
+                        4: "Bujías",
+                        5: "Filtros de aire",
+                        6: "Filtros de aceite",
+                        7: "Espejo",
+                        8: "Focos trasero",
+                        9: "Correa 5Pk"
+                    }
+                },
+                en: {
+                    storeName: "Bullalbo",
+                    productsTitle: "Products",
+                    cartTitle: "Your shopping cart",
+                    clearCart: "Clear shopping cart",
+                    addToCart: "Add to cart",
+                    products: {
+                        1: "Exhaust Pipe",
+                        2: "Motor Oil",
+                        3: "Tire",
+                        4: "Spark Plugs",
+                        5: "Air Filter",
+                        6: "Oil Filter",
+                        7: "Mirror",
+                        8: "Back Headlight",
+                        9: "Car Strap 5PK"
+                    }
+                }
+            };
+
+            
+            translateBtn.addEventListener("click", function () {
+                translated = !translated; 
+                currentLanguage = translated ? 'en' : 'es'; 
+                translatePage(currentLanguage);
+                translateBtn.textContent=currentLanguage==="en" ? "Español" : "English";
+            });
+
+            function translatePage(language) {
+                document.getElementById("store-name").textContent = textContent[language].storeName;
+                document.getElementById("products-title").textContent = textContent[language].productsTitle;
+                document.getElementById("cart-title").textContent = textContent[language].cartTitle;
+                document.getElementById("clear-cart").textContent = textContent[language].clearCart;
+
+                
+                document.querySelectorAll(".add-to-cart").forEach(button => {
+                    button.textContent = textContent[language].addToCart;
+                });
+
+                
+                document.querySelectorAll(".product-name").forEach(product => {
+                    const productId = product.getAttribute("data-product-id");
+                    product.textContent = textContent[language].products[productId];
+                });
+
+                
+                updateCart();
+            }
+
+            
             document.querySelectorAll(".add-to-cart").forEach(button => {
                 button.addEventListener("click", function () {
-                    const productName = this.getAttribute("data-name");
+                    const productId = this.getAttribute("data-name");
                     const productPrice = parseInt(this.getAttribute("data-price"));
 
-                    if (cart[productName]) {
-                        if (cart[productName].quantity < 5) { 
-                            cart[productName].quantity++;
+                    if (cart[productId]) {
+                        if (cart[productId].quantity < 5) { 
+                            cart[productId].quantity++;
                         }
                     } else {
-                        cart[productName] = {
+                        cart[productId] = {
+                            id: productId, 
                             price: productPrice,
                             quantity: 1
                         };
@@ -229,31 +294,16 @@
                 updateCart();
             });
 
-            function incrementProduct(productName) {
-                if (cart[productName].quantity < 5) {
-                    cart[productName].quantity++;
-                }
-                updateCart();
-            }
-
-            function decrementProduct(productName) {
-                if (cart[productName].quantity > 1) {
-                    cart[productName].quantity--;
-                } else {
-                    delete cart[productName];  
-                }
-                updateCart();
-            }
-
             function updateCart() {
-                cartItems.innerHTML = "";  
+                cartItems.innerHTML = ""; 
                 total = 0;
 
-                for (const [productName, productDetails] of Object.entries(cart)) {
-                    const li = document.createElement("li");
+                for (const [productId, productDetails] of Object.entries(cart)) {
+                    const productName = textContent[currentLanguage].products[productId]; 
 
+                    const li = document.createElement("li");
                     li.innerHTML = `
-                        ${productName} - ${productDetails.quantity} x $${productDetails.price} = $${productDetails.quantity * productDetails.price}
+                        ${productName} - ${productDetails.quantity} x $${productDetails.price}
                         <button class="decrease-quantity">-</button>
                         <button class="increase-quantity">+</button>
                     `;
@@ -261,11 +311,11 @@
                     cartItems.appendChild(li);
 
                     li.querySelector(".increase-quantity").addEventListener("click", function () {
-                        incrementProduct(productName);
+                        incrementProduct(productId);
                     });
 
                     li.querySelector(".decrease-quantity").addEventListener("click", function () {
-                        decrementProduct(productName);
+                        decrementProduct(productId);
                     });
 
                     total += productDetails.quantity * productDetails.price;
@@ -273,7 +323,24 @@
 
                 totalElement.textContent = total;
             }
+
+            function incrementProduct(productId) {
+                if (cart[productId].quantity < 5) {
+                    cart[productId].quantity++;
+                }
+                updateCart();
+            }
+
+            function decrementProduct(productId) {
+                if (cart[productId].quantity > 1) {
+                    cart[productId].quantity--;
+                } else {
+                    delete cart[productId];  
+                }
+                updateCart();
+            }
         });
     </script>
 </body>
 </html>
+
