@@ -1,8 +1,10 @@
 // pages/index.js
 "use client";
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Image from 'next/image';
+import { CartContext } from '../context/CartContext';
+import { useRouter } from 'next/router';
 
 const textContent = {
     es: {
@@ -43,7 +45,6 @@ const textContent = {
     }
 };
 
-// Añade un objeto para las URLs de imágenes de los productos
 const productImages = {
     1: "https://api.autoplanet.cl/medias/sys_master/images/h03/hbb/9689390415902/19_Sistema-de-Escape/19-Sistema-de-Escape.png",
     2: "https://api.autoplanet.cl/medias/sys_master/images/h00/ha0/9627906605086/1088886_1-1682041641/1088886-1-1682041641.webp",
@@ -57,55 +58,16 @@ const productImages = {
 };
 
 export default function Home() {
-    const [cart, setCart] = useState({});
-    const [total, setTotal] = useState(0);
+    const { addToCart } = useContext(CartContext);
     const [language, setLanguage] = useState('es');
+    const router = useRouter();
 
     const translatePage = () => {
         setLanguage(language === 'es' ? 'en' : 'es');
     };
 
-    const addToCart = (productId, productPrice) => {
-        setCart((prevCart) => {
-            const newCart = { ...prevCart };
-            newCart[productId] = newCart[productId]
-                ? { ...newCart[productId], quantity: newCart[productId].quantity + 1 }
-                : { id: productId, price: productPrice, quantity: 1 };
-            updateTotal(newCart);
-            return newCart;
-        });
-    };
-
-    const updateTotal = (newCart) => {
-        const newTotal = Object.values(newCart).reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0
-        );
-        setTotal(newTotal);
-    };
-
-    const incrementProduct = (productId) => {
-        setCart((prevCart) => {
-            const newCart = { ...prevCart };
-            if (newCart[productId].quantity < 5) newCart[productId].quantity++;
-            updateTotal(newCart);
-            return newCart;
-        });
-    };
-
-    const decrementProduct = (productId) => {
-        setCart((prevCart) => {
-            const newCart = { ...prevCart };
-            if (newCart[productId].quantity > 1) newCart[productId].quantity--;
-            else delete newCart[productId];
-            updateTotal(newCart);
-            return newCart;
-        });
-    };
-
-    const clearCart = () => {
-        setCart({});
-        setTotal(0);
+    const handleCheckout = () => {
+        router.push('/checkout');
     };
 
     return (
@@ -119,7 +81,7 @@ export default function Home() {
                 {Object.keys(textContent[language].products).map((id) => (
                     <div key={id} className="product">
                         <Image
-                            src={productImages[id]} // Usa la URL específica de cada producto
+                            src={productImages[id]}
                             alt={textContent[language].products[id]}
                             width={120}
                             height={120}
@@ -135,21 +97,7 @@ export default function Home() {
                     </div>
                 ))}
             </div>
-            <h3>{textContent[language].cartTitle}</h3>
-            <ul id="cart-items">
-                {Object.values(cart).map((item) => (
-                    <li key={item.id}>
-                        {textContent[language].products[item.id]} - {item.quantity} x $
-                        {item.price}
-                        <button onClick={() => decrementProduct(item.id)} className="button">-</button>
-                        <button onClick={() => incrementProduct(item.id)} className="button">+</button>
-                    </li>
-                ))}
-            </ul>
-            <p>Total: ${total}</p>
-            <button onClick={clearCart} id="clear-cart">
-                {textContent[language].clearCart}
-            </button>
+            <button onClick={handleCheckout}>Ir al carrito</button>
         </div>
     );
 }
