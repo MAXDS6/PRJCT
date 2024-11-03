@@ -38,3 +38,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignorar archivos ZIP
+*.zip
+
+# Ignorar archivos PDF
+*.pdf
+
+# Ignorar carpetas específicas
+my-crud-app/
