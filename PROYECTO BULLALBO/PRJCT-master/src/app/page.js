@@ -1,6 +1,4 @@
-// pages/index.js
 "use client";
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -13,6 +11,8 @@ const textContent = {
         clearCart: "Limpiar carrito de compras",
         addToCart: "Añadir al carrito",
         welcomeMessage: "Hola",
+        sellButton: "Vender",
+        logoutButton: "Cerrar Sesión",
         products: {
             1: "Tubo de escape",
             2: "Aceite de motor",
@@ -32,6 +32,8 @@ const textContent = {
         clearCart: "Clear shopping cart",
         addToCart: "Add to cart",
         welcomeMessage: "Hello",
+        sellButton: "Sell",
+        logoutButton: "Logout",
         products: {
             1: "Exhaust Pipe",
             2: "Motor Oil",
@@ -65,34 +67,21 @@ export default function Home() {
     const [language, setLanguage] = useState('es');
     const [user, setUser] = useState(null);
 
-    const translatePage = () => {
-        setLanguage(language === 'es' ? 'en' : 'es');
-    };
-
     useEffect(() => {
-        const storedUsername = localStorage.getItem('username');
+        const storedUsername = localStorage.getItem("username");
         if (storedUsername) {
-            fetchUserData(storedUsername);
+            setUser(storedUsername); // Carga el usuario solo si está en localStorage
         }
     }, []);
 
-    const fetchUserData = async (username) => {
-        try {
-            const response = await fetch('/api/users');
-            const users = await response.json();
-            const userData = users.find(user => user.username === username);
-            if (userData) {
-                setUser(userData.name);
-                localStorage.setItem('username', username);
-            }
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
+    const handleLogout = () => {
+        localStorage.removeItem("username"); // Elimina la sesión
+        setUser(null); // Limpia el estado del usuario
+        router.push("/"); // Redirige a la página principal
     };
 
-    const handleLogin = (username) => {
-        fetchUserData(username);
-        router.push('/login'); // Redirige al login y simula inicio de sesión
+    const translatePage = () => {
+        setLanguage(language === 'es' ? 'en' : 'es');
     };
 
     const addToCart = (productId, productPrice) => {
@@ -117,7 +106,7 @@ export default function Home() {
     const incrementProduct = (productId) => {
         setCart((prevCart) => {
             const newCart = { ...prevCart };
-            if (newCart[productId].quantity < 5) newCart[productId].quantity++;
+            if (newCart[productId].quantity < 5) newCart[productId].quantity += 1;
             updateTotal(newCart);
             return newCart;
         });
@@ -126,7 +115,7 @@ export default function Home() {
     const decrementProduct = (productId) => {
         setCart((prevCart) => {
             const newCart = { ...prevCart };
-            if (newCart[productId].quantity > 1) newCart[productId].quantity--;
+            if (newCart[productId].quantity > 1) newCart[productId].quantity -= 1;
             else delete newCart[productId];
             updateTotal(newCart);
             return newCart;
@@ -139,24 +128,31 @@ export default function Home() {
     };
 
     return (
-        <div className="container">
+        <div className="container relative min-h-screen">
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-                <button onClick={() => router.push('/register')} style={{ marginRight: '10px' }}>
-                    Register
-                </button>
-                <button onClick={() => handleLogin("UsuarioEjemplo")}>
-                    Login
-                </button>
+                {user ? (
+                    <>
+                        <button onClick={handleLogout} className="text-red-600 font-semibold">
+                            {textContent[language].logoutButton}
+                        </button>
+                    </>
+                ) : (
+                    <button onClick={() => router.push("/login")}>Login</button>
+                )}
             </div>
-            {user && <p>{`${textContent[language].welcomeMessage} ${user}`}</p>}
+            {user && (
+                <h1 className="text-2xl font-bold text-center text-blue-600 mb-8">
+                    {`Hola ${user}, Bienvenido/a!!!!`}
+                </h1>
+            )}
             <button onClick={translatePage} id="translate-btn">
                 {language === 'es' ? 'English' : 'Español'}
             </button>
             <h1>{textContent[language].storeName}</h1>
             <h2>{textContent[language].productsTitle}</h2>
-            <div className="products">
+            <div className="products grid grid-cols-2 gap-4">
                 {Object.keys(textContent[language].products).map((id) => (
-                    <div key={id} className="product">
+                    <div key={id} className="product bg-white shadow-md rounded-lg p-4">
                         <Image
                             src={productImages[id]}
                             alt={textContent[language].products[id]}
@@ -167,28 +163,38 @@ export default function Home() {
                         <p>{id * 1000}$</p>
                         <button
                             onClick={() => addToCart(id, id * 1000)}
-                            className="button"
+                            className="button bg-blue-500 text-white rounded-lg px-4 py-2 mt-2"
                         >
                             {textContent[language].addToCart}
                         </button>
                     </div>
                 ))}
             </div>
-            <h3>{textContent[language].cartTitle}</h3>
-            <ul id="cart-items">
+            <h3 className="mt-8">{textContent[language].cartTitle}</h3>
+            <ul id="cart-items" className="mt-4">
                 {Object.values(cart).map((item) => (
-                    <li key={item.id}>
+                    <li key={item.id} className="flex items-center justify-between py-2 border-b">
                         {textContent[language].products[item.id]} - {item.quantity} x $
                         {item.price}
-                        <button onClick={() => decrementProduct(item.id)} className="button">-</button>
-                        <button onClick={() => incrementProduct(item.id)} className="button">+</button>
+                        <div className="flex space-x-2">
+                            <button onClick={() => decrementProduct(item.id)} className="button bg-red-500 text-white px-2 rounded-lg">-</button>
+                            <button onClick={() => incrementProduct(item.id)} className="button bg-green-500 text-white px-2 rounded-lg">+</button>
+                        </div>
                     </li>
                 ))}
             </ul>
-            <p>Total: ${total}</p>
-            <button onClick={clearCart} id="clear-cart">
+            <p className="mt-4 font-semibold">Total: ${total}</p>
+            <button onClick={clearCart} id="clear-cart" className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg mt-4">
                 {textContent[language].clearCart}
             </button>
+            {user && (
+                <button
+                    onClick={() => router.push('/sell')}
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded absolute bottom-4 right-4"
+                >
+                    {textContent[language].sellButton}
+                </button>
+            )}
         </div>
     );
 }
