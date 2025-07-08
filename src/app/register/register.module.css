@@ -1,0 +1,124 @@
+/* Contenedor principal */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #f0f0f0, #e2e2e2);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Caja del formulario */
+.formBox {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Título del formulario */
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Botón principal */
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0f21aa;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #4b5497;
+}
+
+/* Mensajes */
+.error {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.success {
+  color: green;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Enlaces */
+.link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.registerLink {
+  color: #b40909;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+/* Botón de cambio de idioma y volver */
+.buttonGroup {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.languageButton {
+  flex: 1;
+  background: #b0b0b0;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.languageButton:hover {
+  background: #969696;
+}
+
+.backButton {
+  flex: 1;
+  background: #0f21aa;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background: #4b5497;
+}

@@ -1,0 +1,143 @@
+/* Estilos para la página de compra */
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.cart {
+  margin: 20px 0;
+}
+
+.cartList {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.2rem;
+}
+
+.total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+}
+
+/* submitButton en lugar de confirmButton para ser consistente con sell */
+.submitButton {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submitButton:hover {
+  background: #218838;
+}
+
+/* Botonera inferior (igual que sell) */
+.buttonGroup {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* languageButton y backButton similares a sell */
+.languageButton {
+  flex: 1;
+  background: #f39c12;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.languageButton:hover {
+  background: #e67e22;
+}
+
+.backButton {
+  flex: 1;
+  background: #2196f3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background: #1976d2;
+}
+
+.emptyMessage {
+  font-size: 1.5rem;
+  color: #555;
+  margin-top: 30px;
+}
+
+.header {
+  background: #01056f;
+  color: #e1e1e1;
+  padding: 18px 36px;
+  border-radius: 0;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  font-family: 'Montserrat', Arial, sans-serif;
+  margin: 0;
+}
+
+.languageButtonHeader {
+  background: #00166c;        /* Azul marino de tu header */
+  color: #fff;                /* Letra blanca */
+  border: 2px solid #fff;     /* Orilla blanca */
+  border-radius: 10px;
+  font-size: 0.95rem;       
+  cursor: pointer;
+  font-weight: bold;
+  padding: 4px 15px;    
+  transition: background 0.2s, color 0.2s;
+}
+
+.languageButtonHeader:hover {
+  background: #1835a2;        /* Un azul un poco más claro al pasar el mouse */
+  color: #fff;
+  border-color: #fff;
+}
+
