@@ -1,5 +1,35 @@
+import { v2 as cloudinary } from "cloudinary";
 import connectMongo from "../../../lib/mongodb";
 import Product from "../../../models/Product";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+export async function GET() {
+  try {
+    await connectMongo();
+    const products = await Product.find().lean();
+
+    return new Response(
+      JSON.stringify({ products }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  } catch (error) {
+    console.error("Error al obtener productos:", error);
+    return new Response(
+      JSON.stringify({ message: "Error al obtener productos." }),
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req) {
   try {
@@ -23,7 +53,17 @@ export async function POST(req) {
       );
     }
 
-    const photoUrl = "https://via.placeholder.com/150";
+    // Convertir archivo a base64 para enviarlo a Cloudinary
+    const buffer = await photo.arrayBuffer();
+    const base64Image = Buffer.from(buffer).toString("base64");
+    const dataUri = `data:${photo.type};base64,${base64Image}`;
+
+    // Subir imagen a Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(dataUri, {
+      folder: "productos",
+    });
+
+    const photoUrl = uploadResult.secure_url;
     const product = await Product.create({ name, price: parseFloat(price), photoUrl });
 
     return new Response(

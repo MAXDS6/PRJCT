@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./home.module.css";
-import FloatingChat from "@/components/FloatingChat";
+
 
 const textContent = {
   es: {
@@ -19,6 +19,7 @@ const textContent = {
     logoutButton: "Cerrar Sesión",
     emptyCart: "Tu carrito está vacío",
     statsButton: "Ver Estadísticas",
+    searchPlaceholder: "Buscar productos...",
     products: {
       1: "Tubo de escape",
       2: "Aceite de motor",
@@ -49,6 +50,7 @@ const textContent = {
     logoutButton: "Logout",
     emptyCart: "Your cart is empty",
     statsButton: "View Statistics",
+    searchPlaceholder: "Search products...",
     products: {
       1: "Exhaust Pipe",
       2: "Motor Oil",
@@ -111,19 +113,16 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [language, setLanguage] = useState("es");
   const [user, setUser] = useState(null);
+  const [dynamicProducts, setDynamicProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUser(storedUsername);
-    }
+    if (storedUsername) setUser(storedUsername);
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => setDynamicProducts(data.products || []));
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("username");
-    setUser(null);
-    router.push("/");
-  };
 
   const addToCart = (productId, productPrice) => {
     setCart((prevCart) => {
@@ -135,31 +134,27 @@ export default function Home() {
       return newCart;
     });
   };
-  const increaseQuantity = (productId) => {
-  setCart((prevCart) => {
-    const newCart = { ...prevCart };
-    if (newCart[productId]) {
-      newCart[productId].quantity += 1;
-    }
-    updateTotal(newCart);
-    return newCart;
-  });
-};
 
-const decreaseQuantity = (productId) => {
-  setCart((prevCart) => {
-    const newCart = { ...prevCart };
-    if (newCart[productId]) {
-      if (newCart[productId].quantity > 1) {
-        newCart[productId].quantity -= 1;
-      } else {
-        delete newCart[productId];
+  const increaseQuantity = (productId) => {
+    setCart((prevCart) => {
+      const newCart = { ...prevCart };
+      if (newCart[productId]) newCart[productId].quantity += 1;
+      updateTotal(newCart);
+      return newCart;
+    });
+  };
+
+  const decreaseQuantity = (productId) => {
+    setCart((prevCart) => {
+      const newCart = { ...prevCart };
+      if (newCart[productId]) {
+        if (newCart[productId].quantity > 1) newCart[productId].quantity -= 1;
+        else delete newCart[productId];
       }
-    }
-    updateTotal(newCart);
-    return newCart;
-  });
-};
+      updateTotal(newCart);
+      return newCart;
+    });
+  };
 
   const updateTotal = (newCart) => {
     const newTotal = Object.values(newCart).reduce(
@@ -172,6 +167,12 @@ const decreaseQuantity = (productId) => {
   const clearCart = () => {
     setCart({});
     setTotal(0);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("username");
+    setUser(null);
+    router.push("/");
   };
 
   const handleBuy = () => {
@@ -219,7 +220,6 @@ const decreaseQuantity = (productId) => {
         </div>
       )}
 
-      {/* Botón para ver estadísticas solo si el usuario es "admin" */}
       {user === "admin" && (
         <div className={styles.statsButtonContainer}>
           <button
@@ -231,22 +231,33 @@ const decreaseQuantity = (productId) => {
         </div>
       )}
 
-
       <main>
         <h2 className={styles.productsTitle}>
           {textContent[language].productsTitle}
         </h2>
+
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            placeholder={textContent[language].searchPlaceholder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+            className={styles.searchInput}
+          />
+        </div>
+
         <div className={styles.productsGrid}>
-          {textContent[language].products &&
-            Object.keys(textContent[language].products).map((id) => (
+          {Object.entries(textContent[language].products)
+            .filter(([_, name]) => name.toLowerCase().includes(searchTerm))
+            .map(([id, name]) => (
               <div key={id} className={styles.productCard}>
                 <Image
                   src={productImages[id]}
-                  alt={textContent[language].products[id]}
+                  alt={name}
                   width={150}
                   height={150}
                 />
-                <h4>{textContent[language].products[id]}</h4>
+                <h4>{name}</h4>
                 <p>Precio: ${productPrices[id]}</p>
                 <button
                   onClick={() => addToCart(id, productPrices[id])}
@@ -256,19 +267,42 @@ const decreaseQuantity = (productId) => {
                 </button>
               </div>
             ))}
+
+          {dynamicProducts
+            .filter((prod) => prod.name.toLowerCase().includes(searchTerm))
+            .map((prod) => (
+              <div key={prod._id || prod.id || prod.name} className={styles.productCard}>
+                <Image
+                  src={prod.photoUrl || "/default.jpg"}
+                  alt={prod.name}
+                  width={150}
+                  height={150}
+                />
+                <h4>{prod.name}</h4>
+                <p>Precio: ${prod.price}</p>
+                <button
+                  onClick={() =>
+                    addToCart(prod._id || prod.id || prod.name, prod.price)
+                  }
+                  className={styles.addToCartButton}
+                >
+                  {textContent[language].addToCart}
+                </button>
+              </div>
+            ))}
         </div>
-        
-        {/* Botón flotante para vender */}
-          {user && (
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-              <button
-                onClick={() => router.push("/sell")}
-                className={styles.sellButton}
-              >
-                {textContent[language].sellButton}
-              </button>
-            </div>
-          )}
+
+        {user && (
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <button
+              onClick={() => router.push("/sell")}
+              className={styles.sellButton}
+            >
+              {textContent[language].sellButton}
+            </button>
+          </div>
+        )}
+
         <section className={styles.cartSection}>
           <h3>{textContent[language].cartTitle}</h3>
           {Object.keys(cart).length === 0 ? (
@@ -277,7 +311,13 @@ const decreaseQuantity = (productId) => {
             <div>
               {Object.values(cart).map((item) => (
                 <div key={item.id} className={styles.cartItem}>
-                  <span>{textContent[language].products[item.id]}</span>
+                  <span>
+                    {
+                      textContent[language].products[item.id] ||
+                      item.name ||
+                      "Producto"
+                    }
+                  </span>
                   <div className={styles.quantityControls}>
                     <button
                       type="button"
@@ -299,9 +339,7 @@ const decreaseQuantity = (productId) => {
                 </div>
               ))}
 
-              <div className={styles.cartTotal}>
-                Total: ${total}
-              </div>
+              <div className={styles.cartTotal}>Total: ${total}</div>
               <button
                 onClick={clearCart}
                 className={`${styles.clearCartButton} text-red-600`}
@@ -315,7 +353,6 @@ const decreaseQuantity = (productId) => {
           )}
         </section>
       </main>
-      <FloatingChat />
     </div>
   );
 }

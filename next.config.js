@@ -8,7 +8,8 @@ module.exports = {
             'ventastore.cl', 
             'api.autoplanet.cl',
             "via.placeholder.com",
-            "imagenes.mundorepuestos.com"
+            "imagenes.mundorepuestos.com",
+            'res.cloudinary.com'
         ],
     },
 };
