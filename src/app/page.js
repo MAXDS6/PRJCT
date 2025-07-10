@@ -83,10 +83,10 @@ const productImages = {
   9: "https://api.autoplanet.cl/medias/sys_master/images/h52/h09/9636977573918/121733_1-1682041641/121733-1-1682041641.webp",
   10: "https://api.autoplanet.cl/medias/sys_master/images/hc7/hd7/9875875561502/1136086_1-1739980652/1136086-1-1739980652.webp",
   11: "https://api.autoplanet.cl/medias/sys_master/images/h7e/h9a/9725570318366/1157918_1-1710770055/1157918-1-1710770055.webp",
-  12: "https://imagenes.mundorepuestos.com:9091/FOTOGRAFIAS_B2C/producto/200webp/P021682A.webp",
-  13: "https://imagenes.mundorepuestos.com:9091/FOTOGRAFIAS_B2C/producto/200webp/0014833A.webp",
-  14: "https://imagenes.mundorepuestos.com:9091/FOTOGRAFIAS_B2C/producto/200webp/9961342A.webp",
-  15: "https://imagenes.mundorepuestos.com:9091/FOTOGRAFIAS_B2C/producto/200webp/0031991A.webp"
+  12: "https://api.autoplanet.cl/medias/sys_master/images/h9f/h9a/9846333538334/1076111_1-1732805538/1076111-1-1732805538.webp",
+  13: "https://api.autoplanet.cl/medias/sys_master/images/h5f/h01/9860600037406/122412_1-1736959373/122412-1-1736959373.webp",
+  14: "https://api.autoplanet.cl/medias/sys_master/images/hb7/h8d/9872278847518/123123_1-1739980652/123123-1-1739980652.webp",
+  15: "https://api.autoplanet.cl/medias/sys_master/images/hf6/h89/9725431775262/104073_1-1710770055/104073-1-1710770055.webp"
 };
 
 const productPrices = {
